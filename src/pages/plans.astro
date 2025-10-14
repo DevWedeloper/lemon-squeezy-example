@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const plans = [
+  {
+    name: 'Basic',
+    price: '$9/mo',
+    features: ['1 Project', 'Basic Support', 'Community Access'],
+    checkoutUrl: 'https://your-lemon-squeezy-basic-plan-checkout',
+  },
+  {
+    name: 'Pro',
+    price: '$29/mo',
+    features: ['5 Projects', 'Priority Support', 'Custom Branding'],
+    checkoutUrl: 'https://your-lemon-squeezy-pro-plan-checkout',
+    highlighted: true,
+  },
+  {
+    name: 'Ultimate',
+    price: '$59/mo',
+    features: ['Unlimited Projects', 'Dedicated Support', 'Advanced Analytics'],
+    checkoutUrl: 'https://your-lemon-squeezy-ultimate-plan-checkout',
+  },
+]
+---
+
+<BaseLayout title="Plans | Lemon Store">
+  <section class="mb-12 text-center">
+    <h1 class="mb-4 text-3xl font-bold">🍋 Subscription Plans</h1>
+    <p class="text-gray-600">Choose the plan that fits your needs — upgrade anytime.</p>
+  </section>
+  <div class="mx-auto flex max-w-6xl flex-col items-stretch justify-center gap-8 px-4 md:flex-row">
+    {
+      plans.map((plan) => (
+        <div
+          class={`flex w-full flex-col items-center rounded-2xl border p-8 text-center shadow-sm transition-all duration-200 md:w-1/3 ${
+            plan.highlighted
+              ? 'scale-105 border-yellow-300 bg-yellow-50 shadow-md'
+              : 'border-gray-100 bg-white hover:shadow-md'
+          }`}
+        >
+          <h2 class="mb-2 text-2xl font-semibold">{plan.name}</h2>
+          <p class="mb-6 text-3xl font-bold text-yellow-600">{plan.price}</p>
+
+          <ul class="mb-8 flex-1 space-y-2 text-gray-600">
+            {plan.features.map((f) => (
+              <li class="flex items-center justify-center gap-2">
+                <span class="text-yellow-500">✔</span>
+                {f}
+              </li>
+            ))}
+          </ul>
+
+          <a
+            href={plan.checkoutUrl}
+            class={`inline-block rounded-xl px-6 py-2 text-center font-medium transition ${
+              plan.highlighted
+                ? 'bg-yellow-500 text-white hover:bg-yellow-600'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Subscribe
+          </a>
+        </div>
+      ))
+    }
+  </div>
+</BaseLayout>
