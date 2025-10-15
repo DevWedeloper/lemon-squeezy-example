@@ -1,27 +1,20 @@
 ---
+import { lemonSqueezySetup, listProducts } from '@lemonsqueezy/lemonsqueezy.js'
+import env from '~/env'
 import BaseLayout from '~/layouts/BaseLayout.astro'
 
-// Mock products — normally fetched via Lemon Squeezy API
-const products = [
-  {
-    id: 1,
-    title: 'Lemon Juice',
-    price: '$5',
-    checkoutUrl: 'https://your-lemon-squeezy-checkout-link-1',
-  },
-  {
-    id: 2,
-    title: 'Lemonade Premium',
-    price: '$12',
-    checkoutUrl: 'https://your-lemon-squeezy-checkout-link-2',
-  },
-  {
-    id: 3,
-    title: 'Lemon Merch Tee',
-    price: '$25',
-    checkoutUrl: 'https://your-lemon-squeezy-checkout-link-3',
-  },
-]
+lemonSqueezySetup({
+  apiKey: env.LEMONSQUEEZY_API_KEY,
+  onError: (error) => console.error('Error!', error),
+})
+
+const { data, error } = await listProducts()
+
+if (error) {
+  console.error('Error!', error)
+}
+
+const products = data?.data || []
 ---
 
 <BaseLayout title="Store | Lemon Store">
@@ -32,11 +25,11 @@ const products = [
       products.map((product) => (
         <div class="flex flex-col justify-between rounded-2xl border border-gray-100 bg-white p-6 shadow">
           <div>
-            <h2 class="mb-2 text-xl font-semibold">{product.title}</h2>
-            <p class="mb-4 text-gray-600">{product.price}</p>
+            <h2 class="mb-2 text-xl font-semibold">{product.attributes.name}</h2>
+            <p class="mb-4 text-gray-600">{product.attributes.price_formatted}</p>
           </div>
           <a
-            href={product.checkoutUrl}
+            href={product.attributes.buy_now_url}
             class="inline-block rounded-xl bg-yellow-500 px-4 py-2 text-center text-white transition hover:bg-yellow-600"
             target="_blank"
             rel="noopener noreferrer"
