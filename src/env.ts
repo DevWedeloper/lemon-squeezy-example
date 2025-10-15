@@ -1,7 +1,7 @@
 import z from 'zod'
 
 const EnvSchema = z.object({
-  LEMON_SQUEEZY_API_KEY: z.string(),
+  LEMONSQUEEZY_API_KEY: z.string(),
 })
 
 const { data: env, error } = EnvSchema.safeParse(import.meta.env)
